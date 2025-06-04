@@ -421,5 +421,5 @@ if __name__ == '__main__':
     # You should have run it once in Step 1 to create database.db
     # If database.db is missing, uncomment init_db() then run this file once, then re-comment it.
     # init_db() # ONLY uncomment for initial setup or if database.db is deleted
-
-    app.run()
+    port = int(os.environ.get('PORT', 10000))  # Default to 10000 for Render
+    app.run(host='0.0.0.0', port=port, debug=False)
