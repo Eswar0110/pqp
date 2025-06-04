@@ -13,5 +13,5 @@ requests==2.31.0
 blinker==1.8.2
 filelock==3.18.0
 pytz==2024.2
-tzdata==2024.
+tzdata==2024.2
 python-dateutil==2.9.0.post0
