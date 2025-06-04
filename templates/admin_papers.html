@@ -1,0 +1,83 @@
+{# This file is meant to be included in admin_panel.html #}
+<h2 class="mb-3">Paper Management</h2>
+{% if paper_error %}<div class="alert alert-danger" role="alert">{{ paper_error }}</div>{% endif %}
+
+<h3 class="mt-4">Upload New Paper</h3>
+<form method="POST" action="{{ url_for('admin_papers') }}" enctype="multipart/form-data" class="p-3 border rounded shadow-sm bg-light">
+    <input type="hidden" name="action" value="upload">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label for="branch_id" class="form-label">Branch:</label>
+            <select name="branch_id" id="branch_id" class="form-select" required>
+                <option value="">Select Branch</option>
+                {# This loop populates the dropdown with branches fetched from the database #}
+                {% for branch in branches %}
+                    <option value="{{ branch.id }}">{{ branch.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="year" class="form-label">Year:</label>
+            <input type="number" name="year" id="year" class="form-control" placeholder="Year (e.g., 2023)" required>
+        </div>
+        <div class="col-md-4">
+            <label for="subject" class="form-label">Subject:</label>
+            <input type="text" name="subject" id="subject" class="form-control" placeholder="Subject (e.g., Data Structures)" required>
+        </div>
+        <div class="col-md-2">
+            <label for="file" class="form-label">Select File:</label>
+            <input type="file" name="file" id="file" class="form-control" required>
+        </div>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary mt-3">Upload Paper</button>
+        </div>
+    </div>
+</form>
+
+<h3 class="mt-5">Existing Papers</h3>
+<div class="table-responsive">
+    <table class="table table-striped table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Branch</th>
+                <th>Year</th>
+                <th>Subject</th>
+                <th>Filename</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for paper in papers %}
+            <tr>
+                <td>{{ paper.id }}</td>
+                <td>{{ paper.branch_name }}</td>
+                <td>{{ paper.year }}</td>
+                <td>{{ paper.subject }}</td>
+                <td><a href="{{ url_for('download_file', filename=paper.filename) }}" target="_blank">{{ paper.filename }}</a></td>
+                <td>
+                    {# Update Form (inline for better presentation) #}
+                    <form class="d-inline-flex align-items-center me-2" method="POST" action="{{ url_for('admin_papers') }}">
+                        <input type="hidden" name="action" value="update">
+                        <input type="hidden" name="paper_id" value="{{ paper.id }}">
+                        <select name="new_branch_id" class="form-select form-select-sm me-1" style="width: 100px;" required>
+                            {% for branch in branches %}
+                                <option value="{{ branch.id }}" {% if paper.branch_id == branch.id %}selected{% endif %}>{{ branch.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="number" name="new_year" value="{{ paper.year }}" class="form-control form-control-sm me-1" style="width: 80px;">
+                        <input type="text" name="new_subject" value="{{ paper.subject }}" class="form-control form-control-sm me-1" style="width: 120px;">
+                        <button type="submit" class="btn btn-sm btn-warning">Update</button>
+                    </form>
+                    {# Delete Form #}
+                    <form class="d-inline-block" method="POST" action="{{ url_for('admin_papers') }}">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="paper_id" value="{{ paper.id }}">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this paper?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

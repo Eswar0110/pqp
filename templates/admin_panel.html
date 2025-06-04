@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - QP Repository</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Basic styling for tabs within the admin panel */
+        .admin-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .admin-tabs button {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 0 5px;
+            border-radius: 5px 5px 0 0;
+            font-size: 16px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .admin-tabs button.active {
+            background-color: #007bff;
+            color: white;
+            border-bottom: 2px solid #007bff; /* Highlight active tab */
+        }
+        .tab-content {
+            border: 1px solid #ddd;
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+            display: none; /* Hidden by default, shown by JS */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            margin-top: 15px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        form input, form select, form button {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        form button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 15px;
+        }
+        form button.delete {
+            background-color: #dc3545;
+        }
+        form button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="main-content">
+        <h1>Admin Panel</h1>
+
+        <div class="admin-tabs">
+            <button class="tab-button" onclick="showTab('users-tab')" id="users-tab-button">User Management</button>
+            <button class="tab-button" onclick="showTab('papers-tab')" id="papers-tab-button">Paper Management</button>
+            <button class="tab-button" onclick="location.href='{{ url_for('dashboard') }}'">Back to Dashboard</button>
+        </div>
+
+        <div id="users-tab" class="tab-content">
+            {# This content will be dynamically loaded/included via Flask #}
+            {# For now, you can link to it or directly include the form sections #}
+            {% include 'admin_users.html' %}
+        </div>
+
+        <div id="papers-tab" class="tab-content">
+            {# This content will be dynamically loaded/included via Flask #}
+            {% include 'admin_papers.html' %}
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            var tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(function(content) {
+                content.style.display = 'none';
+            });
+
+            // Deactivate all tab buttons
+            var tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(function(button) {
+                button.classList.remove('active');
+            });
+
+            // Show the selected tab content
+            document.getElementById(tabId).style.display = 'block';
+
+            // Activate the corresponding button
+            document.getElementById(tabId + '-button').classList.add('active');
+
+            // Store the active tab in local storage
+            localStorage.setItem('activeAdminTab', tabId);
+        }
+
+        // Show default tab on load (or last active tab)
+        document.addEventListener('DOMContentLoaded', function() {
+            var activeTab = localStorage.getItem('activeAdminTab') || 'users-tab';
+            showTab(activeTab);
+        });
+    </script>
+</body>
+</html>

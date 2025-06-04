@@ -1,0 +1,159 @@
+/* General Body and Container Styles (Apply universally) */
+body {
+    font-family: Arial, sans-serif; /* Example font */
+    background-color: #f8f9fa; /* Light background for the whole page */
+    color: #333; /* Default text color */
+}
+
+/* Navbar specific styles (if not fully handled by Bootstrap) */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #fff !important; /* Ensure brand name is white */
+}
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.75) !important; /* Lighter color for links */
+    transition: color 0.2s ease-in-out;
+}
+.navbar-nav .nav-link:hover {
+    color: #fff !important; /* White on hover */
+}
+
+
+/* --- General Form Styling (will apply to forms across the site, but Bootstrap classes should still be used) --- */
+/* This style applies a common box-like appearance to all forms */
+form {
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px; /* Slightly more rounded */
+    background-color: #ffffff; /* White background for forms */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow */
+}
+
+/* Override or fine-tune Bootstrap's form-control inputs */
+.form-control {
+    border-radius: 4px; /* Consistent border radius */
+    font-size: 0.95rem; /* Slightly adjust font size */
+}
+
+/* Custom styles for buttons - if you want a global look different from Bootstrap's defaults */
+/* It's often better to just use Bootstrap's btn-primary, btn-danger, etc.
+   and then customize their colors via Bootstrap's Sass variables if doing a full theme.
+   For quick overrides: */
+.btn {
+    border-radius: 4px; /* Apply consistent radius to all buttons */
+    font-size: 0.95rem; /* Consistent font size for buttons */
+}
+/* If you want a specific "delete" button look outside of btn-danger */
+.btn.delete {
+    background-color: #dc3545; /* Bootstrap's danger color */
+    color: white;
+    border-color: #dc3545;
+}
+.btn.delete:hover {
+    background-color: #c82333; /* Darker on hover */
+    border-color: #bd2130;
+}
+
+
+/* --- General Table Styling (applies globally, use Bootstrap's .table for base) --- */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse; /* Bootstrap's .table handles this well */
+}
+/* You may not need these if using .table, .table-striped, .table-hover correctly */
+th, td {
+    padding: 12px 15px; /* More padding for better readability */
+    text-align: left;
+    vertical-align: middle;
+    /* If you use Bootstrap's .table-bordered, you might not need this manual border */
+    border: 1px solid #e0e0e0; /* Lighter border color */
+}
+th {
+    background-color: #e9ecef; /* Light gray for headers */
+    color: #495057; /* Darker text for headers */
+    font-weight: bold;
+}
+/* For striped tables, Bootstrap's .table-striped is better */
+/* tr:nth-child(even) {
+    background-color: #f8f9fa;
+} */
+
+
+/* --- Admin Panel Specific Overrides (targeted for the admin panel only) --- */
+/* The Bootstrap `nav-tabs` and `tab-content` classes are already highly styled.
+   You generally won't need these custom `.admin-tabs` or `.tab-content` rules
+   unless you want a drastically different design.
+   If you want to keep your custom tab look, you'd apply your own classes
+   to the `<ul>` and `<div>` elements in `admin_panel.html`.
+
+   For example, if you wanted to customize the `nav-link` within the admin tabs:
+*/
+#adminTab .nav-link {
+    font-weight: 500;
+    font-size: 1.05rem;
+    padding: 10px 25px;
+    border-radius: 5px 5px 0 0; /* Keep the top rounded corners */
+    margin-bottom: 0; /* Remove default margin */
+    transition: all 0.2s ease-in-out;
+}
+
+#adminTab .nav-link.active {
+    background-color: #007bff; /* Primary blue for active tab */
+    color: white;
+    border-color: #007bff #007bff #fff; /* Blue top/sides, white bottom to blend with content */
+    border-bottom: 3px solid #007bff; /* A stronger underline for active */
+    margin-bottom: -1px; /* Overlap border with content box */
+}
+
+/* If you want the content boxes to be styled more specifically for admin */
+.tab-content .tab-pane {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6; /* Bootstrap's default tab border */
+    border-top: none; /* Remove top border to connect with tabs */
+    padding: 25px;
+    border-radius: 0 0 8px 8px; /* Only bottom corners rounded */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.07); /* Slightly stronger shadow */
+}
+
+/* Specific styling for the inline forms in the tables (user and paper management) */
+.table form.d-inline-flex {
+    background-color: transparent; /* No background for inline forms in tables */
+    border: none; /* No border for inline forms */
+    padding: 0; /* No padding */
+    box-shadow: none; /* No shadow */
+    margin-top: 0;
+    align-items: center; /* Vertically align items in the form */
+}
+.table form.d-inline-flex .form-control,
+.table form.d-inline-flex .form-select {
+    height: calc(1.8rem + 2px); /* Make inputs/selects smaller in table rows */
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+}
+.table form.d-inline-flex .btn {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+}
+
+/* --- Responsive Adjustments (Optional but Recommended) --- */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .table-responsive {
+        margin-top: 15px;
+    }
+    /* Adjust form layout for smaller screens if needed */
+    form .col-md-4,
+    form .col-md-2 {
+        width: 100%; /* Stack form elements on small screens */
+    }
+}

@@ -1,0 +1,57 @@
+{# This file is meant to be included in admin_panel.html #}
+<h2>User Management</h2>
+{% if user_error %}<p style="color: red;">{{ user_error }}</p>{% endif %}
+
+<h3>Add New User</h3>
+<form method="POST" action="{{ url_for('admin_users') }}">
+    <input type="hidden" name="action" value="add">
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <label for="role">Role:</label>
+    <select name="role" id="role">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+    </select>
+    <button type="submit">Add User</button>
+</form>
+
+<h3>Existing Users</h3>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                {# Update Form #}
+                <form style="display:inline-block; margin-right: 5px;" method="POST" action="{{ url_for('admin_users') }}">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <input type="text" name="new_username" value="{{ user.username }}" required style="width: 100px;">
+                    <input type="password" name="new_password" placeholder="New Pass (optional)" style="width: 120px;">
+                    <select name="new_role" style="width: 80px;">
+                        <option value="user" {% if user.role == 'user' %}selected{% endif %}>User</option>
+                        <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+                {# Delete Form #}
+                <form style="display:inline-block;" method="POST" action="{{ url_for('admin_users') }}">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <button type="submit" class="delete" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ branch_name }} Papers - QP Repository</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="main-content">
+        <h1>Previous Year Papers for {{ branch_name }}</h1>
+        {% if papers %}
+            <ul>
+                {% for paper in papers %}
+                    <li>
+                        {{ paper.subject }} - {{ paper.year }}
+                        {# The 'download' route will expect the actual filename as it appears in the uploads folder #}
+                        <a href="{{ url_for('download_file', filename=paper.filename) }}" target="_blank">Download</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No papers available for this branch yet. Please check back later!</p>
+        {% endif %}
+        <p><a href="{{ url_for('dashboard') }}">Back to Branches</a></p>
+    </div>
+</body>
+</html>

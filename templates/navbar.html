@@ -1,0 +1,13 @@
+<div class="navbar">
+    <div class="navbar-brand">Question Papers</div>
+    <div class="profile-dropdown">
+        <span class="profile-icon">👤 {{ username }}</span>
+        <div class="dropdown-content">
+            <a href="{{ url_for('change_password') }}">Change Password</a>
+            {% if session.get('role') == 'admin' %} {# NEW: Conditional display for admin link #}
+                <a href="{{ url_for('admin_panel') }}">Admin Panel</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+</div>

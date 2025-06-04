@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Papers for {{ branch_name }} - QP Repository{% endblock %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+
+    <div class="container mt-4">
+        <h1 class="mb-4">Previous Year Papers for {{ branch_name }}</h1>
+
+        {% if papers %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover shadow-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Year</th>
+                            <th>Subject</th>
+                            <th>Filename</th>
+                            <th>Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for paper in papers %}
+                        <tr>
+                            <td>{{ paper.year }}</td>
+                            <td>{{ paper.subject }}</td>
+                            <td>{{ paper.filename }}</td>
+                            <td>
+                                <a href="{{ url_for('download_file', filename=paper.filename) }}" class="btn btn-sm btn-success" target="_blank">Download</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info mt-3" role="alert">
+                No papers available for this branch yet. Please check back later!
+            </div>
+        {% endif %}
+
+        <div class="mt-4 text-center">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Branches</a>
+        </div>
+    </div>
+{% endblock %}
